@@ -1,0 +1,180 @@
+{
+    "suite_config": {
+        "version": "2.0",
+        "description": "WordPress Security Testing Suite Configuration"
+    },
+    "target": {
+        "url": "<TARGET_URL in config.json file>",
+        "description": "Target WordPress site URL",
+        "verify_ssl": false,
+        "timeout": 10
+    },
+    "scan_settings": {
+        "max_threads": 5,
+        "rate_limit_delay": 1.0,
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "rotate_user_agents": true,
+        "add_random_jitter": true
+    },
+    "modules": {
+        "advanced_scanner": {
+            "enabled": true,
+            "tests": {
+                "sql_injection": true,
+                "xss": true,
+                "csrf": true,
+                "file_upload": true,
+                "security_headers": true,
+                "authentication_bypass": true,
+                "session_fixation": true,
+                "cve_checking": true,
+                "backup_enumeration": true,
+                "api_fuzzing": true
+            },
+            "sql_injection_payloads": "default",
+            "xss_payloads": "default",
+            "max_fuzzing_attempts": 100
+        },
+        "plugin_exploiter": {
+            "enabled": true,
+            "detection_methods": {
+                "readme_files": true,
+                "source_parsing": true,
+                "rest_api": true
+            },
+            "exploits": {
+                "elementor_xss": true,
+                "wp_file_manager_rce": true,
+                "duplicator_path_traversal": true,
+                "contact_form_7_upload": true,
+                "woocommerce_sqli": true,
+                "wpml_xxe": true,
+                "user_registration_privesc": true,
+                "slider_revolution_download": true,
+                "wpforms_sqli": true
+            },
+            "safe_mode": true
+        },
+        "credential_tester": {
+            "enabled": true,
+            "enumeration": {
+                "author_archives": true,
+                "rest_api": true,
+                "login_errors": true,
+                "max_user_id": 20
+            },
+            "password_testing": {
+                "mode": "smart",
+                "max_attempts_per_user": 20,
+                "base_delay": 2.0,
+                "exponential_backoff": true,
+                "stop_on_success": true
+            },
+            "authentication_methods": {
+                "rest_api": true,
+                "xmlrpc": true,
+                "wp_login": true
+            },
+            "smart_passwords": {
+                "username_based": true,
+                "site_based": true,
+                "common_weak": true,
+                "year_suffixes": true
+            },
+            "wordlist": {
+                "enabled": false,
+                "file": "passwords.txt"
+            },
+            "credential_stuffing": {
+                "enabled": false,
+                "file": "breached_credentials.txt"
+            }
+        },
+        "basic_scanner": {
+            "enabled": true,
+            "tests": {
+                "version_detection": true,
+                "file_exposure": true,
+                "directory_listing": true,
+                "user_enumeration": true,
+                "xmlrpc_methods": true,
+                "rest_api_routes": true,
+                "plugin_disclosure": true,
+                "theme_disclosure": true
+            }
+        }
+    },
+    "reporting": {
+        "formats": {
+            "json": true,
+            "html": true,
+            "console": true
+        },
+        "output_directory": "./reports",
+        "filename_prefix": "security_report",
+        "include_timestamp": true,
+        "verbosity": "normal",
+        "save_on_completion": true,
+        "aggregate_results": true
+    },
+    "safety": {
+        "max_total_requests": 10000,
+        "respect_robots_txt": false,
+        "auto_stop_on_block": true,
+        "max_consecutive_failures": 50,
+        "safe_mode": true,
+        "no_destructive_tests": true
+    },
+    "advanced": {
+        "proxy": {
+            "enabled": false,
+            "http": "http://proxy:8080",
+            "https": "https://proxy:8080"
+        },
+        "custom_headers": {},
+        "cookies": {},
+        "follow_redirects": true,
+        "max_redirects": 5
+    },
+    "wordlists": {
+        "passwords": {
+            "common": "wordlists/common_passwords.txt",
+            "rockyou": "wordlists/rockyou.txt",
+            "custom": "wordlists/custom.txt"
+        },
+        "usernames": {
+            "common": "wordlists/common_usernames.txt",
+            "custom": "wordlists/custom_users.txt"
+        }
+    },
+    "notifications": {
+        "enabled": false,
+        "on_completion": false,
+        "on_critical_finding": false,
+        "on_valid_credentials": false,
+        "methods": {
+            "email": {
+                "enabled": false,
+                "smtp_server": "smtp.example.com",
+                "smtp_port": 587,
+                "from": "security@example.com",
+                "to": "admin@example.com"
+            },
+            "webhook": {
+                "enabled": false,
+                "url": "https://hooks.example.com/security"
+            }
+        }
+    },
+    "exclusions": {
+        "skip_tests": [],
+        "skip_plugins": [],
+        "skip_endpoints": []
+    },
+    "notes": {
+        "authorization": "Ensure you have written authorization before testing",
+        "legal": "Unauthorized testing is illegal",
+        "ethics": "Always practice responsible disclosure",
+        "rate_limiting": "Adjust delays to avoid overwhelming target server"
+    }
+}
